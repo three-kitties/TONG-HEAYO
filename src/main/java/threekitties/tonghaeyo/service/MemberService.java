@@ -2,8 +2,8 @@ package threekitties.tonghaeyo.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import threekitties.tonghaeyo.domain.Organization;
 import threekitties.tonghaeyo.domain.Member;
+import threekitties.tonghaeyo.domain.Organization;
 import threekitties.tonghaeyo.repository.MemberRepository;
 
 import java.util.List;
@@ -34,6 +34,10 @@ public class MemberService {
 
     public void save(Member member) {
         memberRepository.save(member);
+    }
+
+    public void registerOrganization(Member member, Organization organization) {
+        save(member.toBuilder().organization(organization).build());
     }
 
 }

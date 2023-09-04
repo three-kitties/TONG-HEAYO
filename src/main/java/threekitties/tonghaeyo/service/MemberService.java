@@ -2,6 +2,7 @@ package threekitties.tonghaeyo.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import threekitties.tonghaeyo.domain.Member;
 import threekitties.tonghaeyo.domain.Organization;
 import threekitties.tonghaeyo.repository.MemberRepository;
@@ -11,6 +12,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -32,10 +34,12 @@ public class MemberService {
                 .filter(m -> m.getOrganization().getId().equals(organizationId)).toList();
     }
 
+    @Transactional
     public void save(Member member) {
         memberRepository.save(member);
     }
 
+    @Transactional
     public void registerOrganization(Member member, Organization organization) {
         save(member.toBuilder().organization(organization).build());
     }

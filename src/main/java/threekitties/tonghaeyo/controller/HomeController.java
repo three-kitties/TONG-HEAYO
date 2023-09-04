@@ -8,7 +8,7 @@ public class HomeController {
 
     @GetMapping("/")
     public String chooseRole() {
-        return "main";
+        return "pages/main";
     }
 
 }

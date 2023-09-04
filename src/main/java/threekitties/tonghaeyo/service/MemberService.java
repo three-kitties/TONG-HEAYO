@@ -32,4 +32,8 @@ public class MemberService {
                 .filter(m -> m.getOrganization().getId().equals(organizationId)).toList();
     }
 
+    public void save(Member member) {
+        memberRepository.save(member);
+    }
+
 }

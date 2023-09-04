@@ -1,6 +1,9 @@
 package threekitties.tonghaeyo.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.*;
 
 @Entity
@@ -8,16 +11,12 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Table(name = "member")
-public class Member {
+@Table(name = "organization")
+public class Organization {
 
     @Id
     @GeneratedValue
     private Long id;
-    private Authority authority;
     private String name;
-
-    @ManyToOne
-    private Organization organization;
 
 }

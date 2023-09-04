@@ -1,6 +1,9 @@
 package threekitties.tonghaeyo.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -9,17 +12,13 @@ import org.hibernate.annotations.GenericGenerator;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Table(name = "member")
-public class Member {
+@Table(name = "group")
+public class Group {
 
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private Long id;
-    private Authority authority;
     private String name;
-
-    @OneToOne
-    private Group group;
 
 }

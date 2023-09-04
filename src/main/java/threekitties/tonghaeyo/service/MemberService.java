@@ -1,8 +1,9 @@
-package threekitties.tonghaeyo.domain;
+package threekitties.tonghaeyo.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import threekitties.tonghaeyo.domain.repository.MemberRepository;
+import threekitties.tonghaeyo.domain.Member;
+import threekitties.tonghaeyo.repository.MemberRepository;
 
 import java.util.Optional;
 

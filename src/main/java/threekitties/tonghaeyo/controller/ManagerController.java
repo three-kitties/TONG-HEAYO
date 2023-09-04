@@ -21,7 +21,7 @@ public class ManagerController {
 
     @GetMapping("/main")
     public String showMain() {
-        return "manager/main";
+        return "pages/manager/main";
     }
 
     @GetMapping("/members")
@@ -33,7 +33,7 @@ public class ManagerController {
 
         model.addAttribute("organizationName", manager.getOrganization().getName());
         model.addAttribute("members", members);
-        return "manager/members";
+        return "pages/manager/members";
     }
 
     @GetMapping("/delete/{id}")

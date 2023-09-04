@@ -13,9 +13,22 @@
 </nav>
     <div class="mx-auto my-auto text-center">
         <p class="my-8">역할을 선택해주세요.</p>
-        <a href="" class="btn btn-success mx-2 w-24">관리자</a>
-        <a href="" class="btn btn-success mx-2 w-24">기사</a>
-        <a href="" class="btn btn-success mx-2 w-24">일반</a>
+        <a onclick="login(1)" class="btn btn-success mx-2 w-24">관리자</a>
+        <a onclick="login(2)" class="btn btn-success mx-2 w-24">기사</a>
+        <a onclick="login(3)" class="btn btn-success mx-2 w-24">일반</a>
     </div>
+<script type="text/javascript">
+    function login(member){
+        axios.post('http://localhost:8080/login', {
+            id: member, // 1: 관리자, 2:기사, 3:일반
+        })
+            .then(response => {
+                console.log('POST 요청 결과:', response.data);
+            })
+            .catch(error => {
+                console.error('POST 요청 오류:', error);
+            });
+    }
+</script>
 </body>
 </html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/default_layout}"
+      layout:fragment="Content">
+<head>
+    <title>Register Organization</title>
+</head>
+
+<body class="flex flex-col items-center justify-center h-screen">
+
+<div class="mx-auto my-auto text-center">
+    <p class="text-xl font-bold">전체 그룹 목록</p>
+    <table class="table w-96" th:if="${!#lists.isEmpty(organizations)}">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="organization : ${organizations}">
+            <th scope="row" th:text="${organization.getId()}"></th>
+            <td th:text="${organization.getName()}"></td>
+            <td><a th:href="@{/organization/register/{id}(id=${organization.getId()})}"
+                   class="btn btn-sm btn-success">가입</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

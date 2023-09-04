@@ -3,10 +3,10 @@ package threekitties.tonghaeyo.base;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import threekitties.tonghaeyo.domain.Organization;
 import threekitties.tonghaeyo.domain.Member;
-import threekitties.tonghaeyo.repository.OrganizationRepository;
+import threekitties.tonghaeyo.domain.Organization;
 import threekitties.tonghaeyo.repository.MemberRepository;
+import threekitties.tonghaeyo.repository.OrganizationRepository;
 
 import static threekitties.tonghaeyo.domain.Authority.*;
 

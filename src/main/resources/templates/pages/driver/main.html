@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{common/layouts/default_layout}"
       layout:fragment="Content">
 <head>
-    <title>통해요!</title>
+    <title>Main for Driver</title>
 </head>
 
 <body class="flex flex-col items-center justify-center h-screen">
 
 <div class="mx-auto my-auto text-center">
-    <p class="my-8">역할을 선택해주세요.</p>
-    <a href="/manager/main" class="btn btn-success mx-2 w-24">관리자</a>
-    <a href="/driver/main" class="btn btn-success mx-2 w-24">기사</a>
-    <a href="/user/main" class="btn btn-success mx-2 w-24">일반</a>
+    <p>driver1 님 반갑습니다.</p> <!-- 하드 코딩 된 부분 수정하기  -->
+    <a href="/organization" class="btn btn-success m-4 w-36">그룹 목록</a>
 </div>
 
 </body>

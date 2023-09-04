@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://cdn.tailwindcss.com"></script>
-    <title>통해요!</title>
+    <title>이용자 목록</title>
 </head>
 <body class="flex flex-col items-center justify-center h-screen">
 
@@ -16,10 +16,25 @@
 </nav>
 
 <div class="mx-auto my-auto text-center">
-    <p class="my-8">역할을 선택해주세요.</p>
-    <a href="/manager/main" class="btn btn-success mx-2 w-24">관리자</a>
-    <a href="" class="btn btn-success mx-2 w-24">기사</a>
-    <a href="" class="btn btn-success mx-2 w-24">일반</a>
+    <div th:if="${#lists.isEmpty(members)}">
+        <span th:text="|${groupName}에 소속된 이용자가 존재하지 않습니다.|"></span>
+    </div>
+    <div th:if="${!#lists.isEmpty(members)}">
+        <table class="table w-96">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="member : ${members}">
+                <th scope="row" th:text="${member.getId()}"></th>
+                <td th:text="${member.getName()}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"

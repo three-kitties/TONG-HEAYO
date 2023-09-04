@@ -17,7 +17,7 @@
 
 <div class="mx-auto my-auto text-center">
     <div th:if="${#lists.isEmpty(members)}">
-        <span th:text="|${groupName}에 소속된 이용자가 존재하지 않습니다.|"></span>
+        <span th:text="|${organizationName}에 소속된 이용자가 존재하지 않습니다.|"></span>
     </div>
     <div th:if="${!#lists.isEmpty(members)}">
         <table class="table w-96">

@@ -2,7 +2,6 @@ package threekitties.tonghaeyo.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Builder
@@ -13,13 +12,12 @@ import org.hibernate.annotations.GenericGenerator;
 public class Member {
 
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @GeneratedValue
     private Long id;
     private Authority authority;
     private String name;
 
-    @OneToOne
-    private Group group;
+    @ManyToOne
+    private Organization organization;
 
 }

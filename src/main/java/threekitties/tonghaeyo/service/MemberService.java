@@ -2,7 +2,7 @@ package threekitties.tonghaeyo.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import threekitties.tonghaeyo.domain.Group;
+import threekitties.tonghaeyo.domain.Organization;
 import threekitties.tonghaeyo.domain.Member;
 import threekitties.tonghaeyo.repository.MemberRepository;
 
@@ -23,13 +23,13 @@ public class MemberService {
         return memberRepository.findByName(name);
     }
 
-    public List<Member> findByGroup(Group group) {
-        return memberRepository.findByGroup(group);
+    public List<Member> findByGroup(Organization organization) {
+        return memberRepository.findByOrganization(organization);
     }
 
     public List<Member> findByGroupId(Long groupId) {
         return memberRepository.findAll().stream()
-                .filter(m -> m.getGroup().getId().equals(groupId)).toList();
+                .filter(m -> m.getOrganization().getId().equals(groupId)).toList();
     }
 
 }

@@ -26,7 +26,7 @@ public class ManagerController {
     public String getAllMembers(Model model) {
         Member manager = memberService.findByName("manager1").get();
 
-        List<Member> members = memberService.findByGroup(manager.getOrganization());
+        List<Member> members = memberService.findByOrganization(manager.getOrganization());
 
         model.addAttribute("groupName", manager.getOrganization().getName());
         model.addAttribute("members", members);

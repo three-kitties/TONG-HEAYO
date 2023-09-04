@@ -23,13 +23,13 @@ public class MemberService {
         return memberRepository.findByName(name);
     }
 
-    public List<Member> findByGroup(Organization organization) {
+    public List<Member> findByOrganization(Organization organization) {
         return memberRepository.findByOrganization(organization);
     }
 
-    public List<Member> findByGroupId(Long groupId) {
+    public List<Member> findByOrganizationId(Long organizationId) {
         return memberRepository.findAll().stream()
-                .filter(m -> m.getOrganization().getId().equals(groupId)).toList();
+                .filter(m -> m.getOrganization().getId().equals(organizationId)).toList();
     }
 
 }

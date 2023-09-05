@@ -18,4 +18,9 @@ public class DriverController {
         return "pages/driver/main";
     }
 
+    @GetMapping("/map")
+    public String showMap() {
+        return "pages/driver/map";
+    }
+
 }

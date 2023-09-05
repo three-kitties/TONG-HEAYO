@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/default_layout}"
+      layout:fragment="Content">
+<head>
+    <title>이용자 목록</title>
+</head>
+
+<body class="flex flex-col items-center justify-center h-screen">
+
+<div class="mx-auto my-auto text-center">
+    <div th:if="${#lists.isEmpty(members)}">
+        <span th:text="|${organizationName}에 소속된 이용자가 존재하지 않습니다.|"></span>
+    </div>
+    <div th:if="${!#lists.isEmpty(members)}">
+        <p th:text="|${organizationName} 이용자 목록|" class="text-lg font-bold"></p>
+        <table class="table w-96">
+            <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Name</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="member : ${members}">
+                <th scope="row" th:text="${member.getId()}"></th>
+                <td th:text="${member.getName()}"></td>
+                <td><a th:href="@{/manager/delete/{id}(id=${member.getId()})}"
+                       class="btn btn-sm btn-secondary">권한 해제</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

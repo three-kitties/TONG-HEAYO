@@ -40,7 +40,9 @@
             marker.setPosition(latlng);
         });
 
-        var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우 내용, 수정 필요
+        var iwContent = '<div class="flex flex-col"><a class="m-2" href="#">출발지</a>' +
+                '<a class="m-2" href="#">경유지</a>' +
+                '<a class="m-2" href="#">도착지</a></div>',
             iwRemoveable = true;
 
         // 인포윈도우 생성

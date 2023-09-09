@@ -16,8 +16,8 @@ public class Route {
     @GeneratedValue
     private Long id;
 
-    @OneToOne
-    private Member driver;
+    @OneToOne(mappedBy = "route")
+    private Organization organization;
 
     @Embedded
     @AttributeOverrides({
@@ -36,8 +36,8 @@ public class Route {
     })
     private Location destination;
 
-    public Route(Member driver) {
-        this.driver = driver;
+    public Route(Organization organization) {
+        this.organization = organization;
         this.startPoint = null;
         this.stopovers = new ArrayList<>();
         this.destination = null;

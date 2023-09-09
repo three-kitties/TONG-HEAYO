@@ -38,7 +38,7 @@ public class DriverController {
 
         if (driver == null) return "pages/error/authority";
 
-        model.addAttribute("route", routeService.findByDriver(driver));
+        model.addAttribute("route", routeService.findByOrganization(driver.getOrganization()));
         return "pages/driver/map";
     }
 
@@ -49,7 +49,7 @@ public class DriverController {
         if (driver == null) return "pages/error/authority";
 
         Location location = new Location(lat, lng);
-        Route route = routeService.findByDriver(driver);
+        Route route = routeService.findByOrganization(driver.getOrganization());
         route.addStartPoint(location);
 
         return "redirect:/driver/map";
@@ -62,7 +62,7 @@ public class DriverController {
         if (driver == null) return "pages/error/authority";
 
         Location location = new Location(lat, lng);
-        Route route = routeService.findByDriver(driver);
+        Route route = routeService.findByOrganization(driver.getOrganization());
         route.addStopovers(location);
 
         return "redirect:/driver/map";
@@ -75,7 +75,7 @@ public class DriverController {
         if (driver == null) return "pages/error/authority";
 
         Location location = new Location(lat, lng);
-        Route route = routeService.findByDriver(driver);
+        Route route = routeService.findByOrganization(driver.getOrganization());
         route.addDestination(location);
 
         return "redirect:/driver/map";
@@ -87,7 +87,7 @@ public class DriverController {
 
         if (driver == null) return "pages/error/authority";
 
-        Route route = routeService.findByDriver(driver);
+        Route route = routeService.findByOrganization(driver.getOrganization());
         Organization organization = organizationService.findById(id);
 
         organizationService.saveRoute(organization, route);

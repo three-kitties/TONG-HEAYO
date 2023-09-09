@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import threekitties.tonghaeyo.domain.Authority;
 import threekitties.tonghaeyo.domain.Member;
 import threekitties.tonghaeyo.domain.Organization;
 import threekitties.tonghaeyo.service.MemberService;
@@ -29,16 +28,17 @@ public class OrganizationController {
     // TODO: 하드 코딩 된 부분 수정 필요
     @GetMapping("/register/{id}")
     public String registerOrganization(@PathVariable Long id) {
-        Member member = memberService.findByName("yuri").get();
-        Organization organization = organizationService.findById(id).get();
+        Member member = memberService.findByName("yuri");
+        Organization organization = organizationService.findById(id);
 
         memberService.registerOrganization(member, organization);
 
-        if (member.getAuthority() == Authority.MANAGER) {
-            return "redirect:/manager/main";
-        } else if (member.getAuthority() == Authority.DRIVER) {
-            return "redirect:/driver/main";
-        } else return "redirect:/user/main";
+        return switch (member.getAuthority()) {
+            case MANAGER -> "redirect:/manager/main";
+            case DRIVER -> "redirect:/driver/main";
+            case USER -> "redirect:/user/main";
+            default -> "redirect:/error/authority";
+        };
     }
 
 }

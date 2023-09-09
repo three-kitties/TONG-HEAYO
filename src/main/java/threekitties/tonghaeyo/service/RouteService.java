@@ -3,7 +3,7 @@ package threekitties.tonghaeyo.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import threekitties.tonghaeyo.domain.Member;
+import threekitties.tonghaeyo.domain.Organization;
 import threekitties.tonghaeyo.domain.Route;
 import threekitties.tonghaeyo.repository.RouteRepository;
 
@@ -27,10 +27,10 @@ public class RouteService {
         return opRoute.get();
     }
 
-    public Route findByDriver(Member driver) {
-        Optional<Route> opRoute = routeRepository.findByDriver(driver);
+    public Route findByOrganization(Organization organization) {
+        Optional<Route> opRoute = routeRepository.findByOrganization(organization);
 
-        return opRoute.orElseGet(() -> routeRepository.save(new Route(driver)));
+        return opRoute.orElseGet(() -> routeRepository.save(new Route(organization)));
     }
 
     public Route save(Route route) {

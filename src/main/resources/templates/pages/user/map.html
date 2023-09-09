@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{common/layouts/default_layout}"
+      layout:fragment="Content">
+<head>
+    <title>지도 조회</title>
+</head>
+
+<body class="flex flex-col items-center justify-center h-screen">
+
+<div class="mx-auto my-auto text-center">
+    <div th:if="${organization} == null">
+        <p class="text-xl font-bold">
+            가입한 그룹이 없습니다.
+        </p>
+    </div>
+    <div th:if="${organization}" !=" null">
+        지도 조회 화면
+    </div>
+</div>
+
+</body>
+</html>

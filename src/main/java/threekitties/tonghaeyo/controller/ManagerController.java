@@ -13,7 +13,6 @@ import threekitties.tonghaeyo.domain.Member;
 import threekitties.tonghaeyo.service.MemberService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Controller
@@ -23,22 +22,19 @@ public class ManagerController {
     private final MemberService memberService;
 
     @GetMapping("/main")
-    public String showMain(HttpServletRequest request) throws Exception{
-        HttpSession session = request.getSession();
-        Long id = Long.parseLong(session.getAttribute("sessionId").toString());
-        Member member = memberService.findById(id).get();
-        if(member.getAuthority().equals(Authority.MANAGER)){
-            return "pages/manager/main";
-        }else {
-            return "pages/error/authority";
-        }
+    public String showMain(HttpServletRequest request) throws Exception {
+        Member manager = getManager(request);
 
+        if (manager == null) return "redirect:/error/authority";
+
+        return "pages/manager/main";
     }
 
     @GetMapping("/members")
-    public String getAllMembers(Model model) {
-        // TODO : 하드 코딩 된 부분 수정 필요
-        Member manager = memberService.findByName("manager1").get();
+    public String getAllMembers(Model model, HttpServletRequest request) {
+        Member manager = getManager(request);
+
+        if (manager == null) return "redirect:/error/authority";
 
         List<Member> members = memberService.findByOrganization(manager.getOrganization());
 
@@ -48,21 +44,26 @@ public class ManagerController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteMemberOrganization(@PathVariable Long id) {
-        Optional<Member> opMember = memberService.findById(id);
-        validateIfMemberExists(opMember);
+    public String deleteMemberOrganization(@PathVariable Long id, HttpServletRequest request) {
+        Member manager = getManager(request);
 
-        Member member = opMember.get();
+        if (manager == null) return "redirect:/error/authority";
 
-        memberService.save(member.toBuilder().organization(null).build());
-
+        Member targetMember = memberService.findById(id);
+        memberService.save(targetMember.toBuilder().organization(null).build());
         return "redirect:/manager/members";
     }
 
-    private void validateIfMemberExists(Optional<Member> opMember) {
-        if (opMember.isEmpty()) {
-            throw new IllegalArgumentException("Such a member doesn't exist.");
+    private Member getManager(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Long managerId = Long.parseLong(session.getAttribute("sessionId").toString());
+        Member manager = memberService.findById(managerId);
+
+        if (!manager.getAuthority().equals(Authority.MANAGER)) {
+            return null;
         }
+
+        return manager;
     }
 
 }

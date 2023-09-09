@@ -17,12 +17,22 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    public Optional<Member> findById(Long id) {
-        return memberRepository.findById(id);
+    public Member findById(Long id) {
+        Optional<Member> opMember = memberRepository.findById(id);
+        validateMemberExists(opMember);
+        return opMember.get();
     }
 
-    public Optional<Member> findByName(String name) {
-        return memberRepository.findByName(name);
+    public Member findByName(String name) {
+        Optional<Member> opMember = memberRepository.findByName(name);
+        validateMemberExists(opMember);
+        return opMember.get();
+    }
+
+    private void validateMemberExists(Optional<Member> opMember) {
+        if (opMember.isEmpty()) {
+            throw new IllegalArgumentException("Such a member doesn't exist.");
+        }
     }
 
     public List<Member> findByOrganization(Organization organization) {

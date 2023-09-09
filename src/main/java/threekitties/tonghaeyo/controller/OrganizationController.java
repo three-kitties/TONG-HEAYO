@@ -1,12 +1,13 @@
 package threekitties.tonghaeyo.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import threekitties.tonghaeyo.domain.Authority;
 import threekitties.tonghaeyo.domain.Member;
 import threekitties.tonghaeyo.domain.Organization;
 import threekitties.tonghaeyo.service.MemberService;
@@ -21,24 +22,30 @@ public class OrganizationController {
     private final MemberService memberService;
 
     @GetMapping("")
-    public String getAllOrganization(Model model) {
+    public String getAllOrganizations(Model model) {
         model.addAttribute("organizations", organizationService.findAll());
-        return "pages/register";
+        return "pages/organization/list";
     }
 
-    // TODO: 하드 코딩 된 부분 수정 필요
     @GetMapping("/register/{id}")
-    public String registerOrganization(@PathVariable Long id) {
-        Member member = memberService.findByName("yuri").get();
-        Organization organization = organizationService.findById(id).get();
+    public String registerOrganization(@PathVariable Long id, HttpServletRequest request) {
+        Member member = getMember(request);
+        Organization organization = organizationService.findById(id);
 
         memberService.registerOrganization(member, organization);
 
-        if (member.getAuthority() == Authority.MANAGER) {
-            return "redirect:/manager/main";
-        } else if (member.getAuthority() == Authority.DRIVER) {
-            return "redirect:/driver/main";
-        } else return "redirect:/user/main";
+        return switch (member.getAuthority()) {
+            case MANAGER -> "redirect:/manager/main";
+            case DRIVER -> "redirect:/driver/main";
+            case USER -> "redirect:/user/main";
+            default -> "redirect:/error/authority";
+        };
+    }
+
+    private Member getMember(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Long id = Long.parseLong(session.getAttribute("sessionId").toString());
+        return memberService.findById(id);
     }
 
 }

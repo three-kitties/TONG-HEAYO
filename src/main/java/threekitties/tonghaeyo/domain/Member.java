@@ -15,7 +15,10 @@ public class Member {
     @Id
     @GeneratedValue
     private Long id;
+
+    @Enumerated(EnumType.STRING)
     private Authority authority;
+
     private String name;
 
     @Nullable

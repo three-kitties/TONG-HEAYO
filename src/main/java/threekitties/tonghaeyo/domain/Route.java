@@ -19,13 +19,13 @@ public class Route {
     @OneToOne
     private Member driver;
 
-    @OneToOne
+    @Embedded
     private Location startPoint;
 
-    @OneToMany
+    @ElementCollection
     private List<Location> stopovers;
 
-    @OneToOne
+    @Embedded
     private Location destination;
 
     public Route(Member driver) {

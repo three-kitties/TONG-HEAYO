@@ -1,19 +1,11 @@
 package threekitties.tonghaeyo.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import lombok.Getter;
+import jakarta.persistence.Embeddable;
 import lombok.NoArgsConstructor;
 
-@Getter
+@Embeddable
 @NoArgsConstructor
-@Entity
 public class Location {
-
-    @Id
-    @GeneratedValue
-    private Long id;
 
     private Long lat;
     private Long lng;

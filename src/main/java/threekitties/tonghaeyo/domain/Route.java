@@ -20,12 +20,20 @@ public class Route {
     private Member driver;
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "lat", column = @Column(name = "start_lat")),
+            @AttributeOverride(name = "lng", column = @Column(name = "start_lng"))
+    })
     private Location startPoint;
 
     @ElementCollection
     private List<Location> stopovers;
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "lat", column = @Column(name = "end_lat")),
+            @AttributeOverride(name = "lng", column = @Column(name = "end_lng"))
+    })
     private Location destination;
 
     public Route(Member driver) {

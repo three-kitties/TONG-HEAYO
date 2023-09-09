@@ -30,7 +30,7 @@ public class DriverController {
     @GetMapping("/map")
     public String showMap(Model model) {
         // 하드 코딩 된 사용자(수정 필요)
-        Member driver = memberService.findByName("driver1").get();
+        Member driver = memberService.findByName("driver1");
 
         model.addAttribute("route", routeService.findByDriver(driver));
         return "pages/driver/map";
@@ -39,11 +39,35 @@ public class DriverController {
     @GetMapping("/start")
     public String setStartPoint(@RequestParam Long lat, @RequestParam Long lng) {
         // 하드 코딩 된 사용자(수정 필요)
-        Member driver = memberService.findByName("driver1").get();
+        Member driver = memberService.findByName("driver1");
 
         Location location = locationService.save(new Location(lat, lng));
         Route route = routeService.findByDriver(driver);
         route.addStartPoint(location);
+
+        return "redirect:/driver/map";
+    }
+
+    @GetMapping("/stopover")
+    public String setStopover(@RequestParam Long lat, @RequestParam Long lng) {
+        // 하드 코딩 된 사용자(수정 필요)
+        Member driver = memberService.findByName("driver1");
+
+        Location location = locationService.save(new Location(lat, lng));
+        Route route = routeService.findByDriver(driver);
+        route.addStopovers(location);
+
+        return "redirect:/driver/map";
+    }
+
+    @GetMapping("/destination")
+    public String setDestination(@RequestParam Long lat, @RequestParam Long lng) {
+        // 하드 코딩 된 사용자(수정 필요)
+        Member driver = memberService.findByName("driver1");
+
+        Location location = locationService.save(new Location(lat, lng));
+        Route route = routeService.findByDriver(driver);
+        route.addDestination(location);
 
         return "redirect:/driver/map";
     }

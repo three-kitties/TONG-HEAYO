@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import threekitties.tonghaeyo.domain.Authority;
@@ -24,6 +25,20 @@ public class UserController {
         if (user == null) return "pages/error/authority";
 
         return "pages/user/main";
+    }
+
+    @GetMapping("/map")
+    public String getMap(Model model, HttpServletRequest request) {
+        Member user = getUser(request);
+
+        if (user.getOrganization() == null) {
+            model.addAttribute("organization", null);
+        } else {
+            model.addAttribute("organization", user.getOrganization());
+            model.addAttribute("route", user.getOrganization().getRoute());
+        }
+
+        return "/pages/user/map";
     }
 
     private Member getUser(HttpServletRequest request) {

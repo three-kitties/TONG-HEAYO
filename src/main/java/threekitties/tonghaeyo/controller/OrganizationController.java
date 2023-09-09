@@ -1,5 +1,7 @@
 package threekitties.tonghaeyo.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,15 +22,14 @@ public class OrganizationController {
     private final MemberService memberService;
 
     @GetMapping("")
-    public String getAllOrganization(Model model) {
+    public String getAllOrganizations(Model model) {
         model.addAttribute("organizations", organizationService.findAll());
-        return "pages/register";
+        return "pages/organization/list";
     }
 
-    // TODO: 하드 코딩 된 부분 수정 필요
     @GetMapping("/register/{id}")
-    public String registerOrganization(@PathVariable Long id) {
-        Member member = memberService.findByName("yuri");
+    public String registerOrganization(@PathVariable Long id, HttpServletRequest request) {
+        Member member = getMember(request);
         Organization organization = organizationService.findById(id);
 
         memberService.registerOrganization(member, organization);
@@ -39,6 +40,12 @@ public class OrganizationController {
             case USER -> "redirect:/user/main";
             default -> "redirect:/error/authority";
         };
+    }
+
+    private Member getMember(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Long id = Long.parseLong(session.getAttribute("sessionId").toString());
+        return memberService.findById(id);
     }
 
 }

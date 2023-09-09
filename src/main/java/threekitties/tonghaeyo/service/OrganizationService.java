@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import threekitties.tonghaeyo.domain.Organization;
+import threekitties.tonghaeyo.domain.Route;
 import threekitties.tonghaeyo.repository.OrganizationRepository;
 
 import java.util.List;
@@ -36,6 +37,11 @@ public class OrganizationService {
 
     public List<Organization> findAll() {
         return organizationRepository.findAll();
+    }
+
+    @Transactional
+    public void saveRoute(Organization organization, Route route) {
+        organizationRepository.save(organization.toBuilder().route(route).build());
     }
 
 }

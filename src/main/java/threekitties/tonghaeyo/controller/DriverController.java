@@ -6,13 +6,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import threekitties.tonghaeyo.domain.Authority;
-import threekitties.tonghaeyo.domain.Location;
-import threekitties.tonghaeyo.domain.Member;
-import threekitties.tonghaeyo.domain.Route;
+import threekitties.tonghaeyo.domain.*;
 import threekitties.tonghaeyo.service.MemberService;
+import threekitties.tonghaeyo.service.OrganizationService;
 import threekitties.tonghaeyo.service.RouteService;
 
 @RequiredArgsConstructor
@@ -21,6 +20,7 @@ import threekitties.tonghaeyo.service.RouteService;
 public class DriverController {
 
     private final MemberService memberService;
+    private final OrganizationService organizationService;
     private final RouteService routeService;
 
     @GetMapping("/main")
@@ -77,6 +77,20 @@ public class DriverController {
         Location location = new Location(lat, lng);
         Route route = routeService.findByDriver(driver);
         route.addDestination(location);
+
+        return "redirect:/driver/map";
+    }
+
+    @GetMapping("/save/{id}")
+    public String saveRoute(@PathVariable Long id, HttpServletRequest request) {
+        Member driver = getDriver(request);
+
+        if (driver == null) return "pages/error/authority";
+
+        Route route = routeService.findByDriver(driver);
+        Organization organization = organizationService.findById(id);
+
+        organizationService.saveRoute(organization, route);
 
         return "redirect:/driver/map";
     }

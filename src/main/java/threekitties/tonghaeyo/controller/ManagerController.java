@@ -25,14 +25,13 @@ public class ManagerController {
     public String showMain(HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession();
         Long id = Long.parseLong(session.getAttribute("sessionId").toString());
-        Member member = memberService.findById(id);
+        Member manager = memberService.findById(id);
 
-        if (member.getAuthority().equals(Authority.MANAGER)) {
+        if (manager.getAuthority().equals(Authority.MANAGER)) {
             return "pages/manager/main";
         } else {
             return "pages/error/authority";
         }
-
     }
 
     @GetMapping("/members")
@@ -48,9 +47,17 @@ public class ManagerController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteMemberOrganization(@PathVariable Long id) {
-        Member member = memberService.findById(id);
-        memberService.save(member.toBuilder().organization(null).build());
+    public String deleteMemberOrganization(@PathVariable Long id, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Long managerId = Long.parseLong(session.getAttribute("sessionId").toString());
+        Member manager = memberService.findById(managerId);
+
+        if (manager.getAuthority() != Authority.MANAGER) {
+            return "redirect:/error/authority";
+        }
+
+        Member targetMember = memberService.findById(id);
+        memberService.save(targetMember.toBuilder().organization(null).build());
         return "redirect:/manager/members";
     }
 

@@ -9,8 +9,9 @@ import threekitties.tonghaeyo.repository.MemberRepository;
 @RequiredArgsConstructor
 @Service
 public class HomeService {
-    @Autowired
-    private MemberRepository repository;
+
+    private final MemberRepository repository;
+
     public Member login(String name){
         return repository.findByName(name).get();
     }

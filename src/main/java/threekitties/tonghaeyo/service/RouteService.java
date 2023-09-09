@@ -33,7 +33,6 @@ public class RouteService {
         return opRoute.orElseGet(() -> routeRepository.save(new Route(driver)));
     }
 
-    @Transactional
     public Route save(Route route) {
         return routeRepository.save(route);
     }

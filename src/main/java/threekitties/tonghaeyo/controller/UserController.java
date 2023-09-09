@@ -19,15 +19,23 @@ public class UserController {
 
     @GetMapping("/main")
     public String showMain(HttpServletRequest request) throws Exception {
+        Member user = getUser(request);
+
+        if (user == null) return "pages/error/authority";
+
+        return "pages/user/main";
+    }
+
+    private Member getUser(HttpServletRequest request) {
         HttpSession session = request.getSession();
         Long id = Long.parseLong(session.getAttribute("sessionId").toString());
         Member user = memberService.findById(id);
 
-        if (user.getAuthority().equals(Authority.USER)) {
-            return "pages/user/main";
-        } else {
-            return "pages/error/authority";
+        if (!user.getAuthority().equals(Authority.USER)) {
+            return null;
         }
+
+        return user;
     }
 
 }

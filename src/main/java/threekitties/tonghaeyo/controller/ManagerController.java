@@ -23,21 +23,18 @@ public class ManagerController {
 
     @GetMapping("/main")
     public String showMain(HttpServletRequest request) throws Exception {
-        HttpSession session = request.getSession();
-        Long id = Long.parseLong(session.getAttribute("sessionId").toString());
-        Member manager = memberService.findById(id);
+        Member manager = getManager(request);
 
-        if (manager.getAuthority().equals(Authority.MANAGER)) {
-            return "pages/manager/main";
-        } else {
-            return "pages/error/authority";
-        }
+        if (manager == null) return "redirect:/error/authority";
+
+        return "pages/manager/main";
     }
 
     @GetMapping("/members")
-    public String getAllMembers(Model model) {
-        // TODO : 하드 코딩 된 부분 수정 필요
-        Member manager = memberService.findByName("manager1");
+    public String getAllMembers(Model model, HttpServletRequest request) {
+        Member manager = getManager(request);
+
+        if (manager == null) return "redirect:/error/authority";
 
         List<Member> members = memberService.findByOrganization(manager.getOrganization());
 
@@ -48,17 +45,25 @@ public class ManagerController {
 
     @GetMapping("/delete/{id}")
     public String deleteMemberOrganization(@PathVariable Long id, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Long managerId = Long.parseLong(session.getAttribute("sessionId").toString());
-        Member manager = memberService.findById(managerId);
+        Member manager = getManager(request);
 
-        if (manager.getAuthority() != Authority.MANAGER) {
-            return "redirect:/error/authority";
-        }
+        if (manager == null) return "redirect:/error/authority";
 
         Member targetMember = memberService.findById(id);
         memberService.save(targetMember.toBuilder().organization(null).build());
         return "redirect:/manager/members";
+    }
+
+    private Member getManager(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Long managerId = Long.parseLong(session.getAttribute("sessionId").toString());
+        Member manager = memberService.findById(managerId);
+
+        if (!manager.getAuthority().equals(Authority.MANAGER)) {
+            return null;
+        }
+
+        return manager;
     }
 
 }

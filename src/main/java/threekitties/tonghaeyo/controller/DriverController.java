@@ -25,30 +25,28 @@ public class DriverController {
 
     @GetMapping("/main")
     public String showMain(HttpServletRequest request) throws Exception {
-        HttpSession session = request.getSession();
-        Long id = Long.parseLong(session.getAttribute("sessionId").toString());
-        Member driver = memberService.findById(id);
+        Member driver = getDriver(request);
 
-        if (driver.getAuthority().equals(Authority.DRIVER)) {
-            return "pages/driver/main";
-        } else {
-            return "pages/error/authority";
-        }
+        if (driver == null) return "pages/error/authority";
+
+        return "pages/driver/main";
     }
 
     @GetMapping("/map")
-    public String showMap(Model model) {
-        // 하드 코딩 된 사용자(수정 필요)
-        Member driver = memberService.findByName("driver1");
+    public String showMap(Model model, HttpServletRequest request) {
+        Member driver = getDriver(request);
+
+        if (driver == null) return "pages/error/authority";
 
         model.addAttribute("route", routeService.findByDriver(driver));
         return "pages/driver/map";
     }
 
     @GetMapping("/start")
-    public String setStartPoint(@RequestParam Long lat, @RequestParam Long lng) {
-        // 하드 코딩 된 사용자(수정 필요)
-        Member driver = memberService.findByName("driver1");
+    public String setStartPoint(@RequestParam Long lat, @RequestParam Long lng, HttpServletRequest request) {
+        Member driver = getDriver(request);
+
+        if (driver == null) return "pages/error/authority";
 
         Location location = new Location(lat, lng);
         Route route = routeService.findByDriver(driver);
@@ -58,9 +56,10 @@ public class DriverController {
     }
 
     @GetMapping("/stopover")
-    public String setStopover(@RequestParam Long lat, @RequestParam Long lng) {
-        // 하드 코딩 된 사용자(수정 필요)
-        Member driver = memberService.findByName("driver1");
+    public String setStopover(@RequestParam Long lat, @RequestParam Long lng, HttpServletRequest request) {
+        Member driver = getDriver(request);
+
+        if (driver == null) return "pages/error/authority";
 
         Location location = new Location(lat, lng);
         Route route = routeService.findByDriver(driver);
@@ -70,15 +69,28 @@ public class DriverController {
     }
 
     @GetMapping("/destination")
-    public String setDestination(@RequestParam Long lat, @RequestParam Long lng) {
-        // 하드 코딩 된 사용자(수정 필요)
-        Member driver = memberService.findByName("driver1");
+    public String setDestination(@RequestParam Long lat, @RequestParam Long lng, HttpServletRequest request) {
+        Member driver = getDriver(request);
+
+        if (driver == null) return "pages/error/authority";
 
         Location location = new Location(lat, lng);
         Route route = routeService.findByDriver(driver);
         route.addDestination(location);
 
         return "redirect:/driver/map";
+    }
+
+    private Member getDriver(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Long id = Long.parseLong(session.getAttribute("sessionId").toString());
+        Member driver = memberService.findById(id);
+
+        if (!driver.getAuthority().equals(Authority.DRIVER)) {
+            return null;
+        }
+
+        return driver;
     }
 
 }

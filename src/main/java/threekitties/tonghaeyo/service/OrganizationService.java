@@ -16,12 +16,22 @@ public class OrganizationService {
 
     private final OrganizationRepository organizationRepository;
 
-    public Optional<Organization> findById(Long id) {
-        return organizationRepository.findById(id);
+    public Organization findById(Long id) {
+        Optional<Organization> opOrganization = organizationRepository.findById(id);
+        validateOrganizationExists(opOrganization);
+        return opOrganization.get();
     }
 
-    public Optional<Organization> findByName(String name) {
-        return organizationRepository.findByName(name);
+    public Organization findByName(String name) {
+        Optional<Organization> opOrganization = organizationRepository.findByName(name);
+        validateOrganizationExists(opOrganization);
+        return opOrganization.get();
+    }
+
+    private void validateOrganizationExists(Optional<Organization> opOrganization) {
+        if (opOrganization.isEmpty()) {
+            throw new IllegalArgumentException("Such an organization doesn't exists.");
+        }
     }
 
     public List<Organization> findAll() {

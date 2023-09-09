@@ -1,7 +1,6 @@
 package threekitties.tonghaeyo.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import threekitties.tonghaeyo.domain.Member;
 import threekitties.tonghaeyo.repository.MemberRepository;

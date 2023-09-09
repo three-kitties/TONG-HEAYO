@@ -1,13 +1,10 @@
 package threekitties.tonghaeyo.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Builder
+@Builder(toBuilder = true)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
@@ -18,5 +15,8 @@ public class Organization {
     @GeneratedValue
     private Long id;
     private String name;
+
+    @OneToOne
+    private Route route;
 
 }
